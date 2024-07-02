@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TpWkQ14ilog=",
+  "dgSpecHash": "eKeKvsUm20CohGGXmWFSrICfZEbooBnN7s7FerFhnJ11f4mSnlPqwaYPr3hE01mb8l3wFYpWNZANuXLY3PIsQA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
+  "projectFilePath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

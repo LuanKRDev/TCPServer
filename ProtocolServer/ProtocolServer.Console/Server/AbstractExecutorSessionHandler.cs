@@ -7,12 +7,12 @@ namespace ProtocolServer.Console.Server
 {
     public abstract class AbstractExecutorSessionHandler : AbstractServerSessionHandler
     {
-        private Task? executor;
+        private Task? _executor;
 
         public override void Start(IServerSessionOwner owner, Guid key, Socket socket)
         {
             base.Start(owner, key, socket);
-            executor = Task.Run(Execute);
+            _executor = Task.Run(Execute);
         }
 
         protected abstract Task ReceivedAsync(IMessage message);

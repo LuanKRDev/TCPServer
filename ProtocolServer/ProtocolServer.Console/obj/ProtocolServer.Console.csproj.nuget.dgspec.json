@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj": {}
+    "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj": {
+    "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
+        "projectUniqueName": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
         "projectName": "ProtocolServer.Console",
-        "projectPath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
+        "projectPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
         "packagesPath": "C:\\Users\\Pedroca\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Console\\obj\\",
+        "outputPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Pedroca\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -29,8 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj": {
-                "projectPath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj"
+              "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj": {
+                "projectPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj"
               }
             }
           }
@@ -39,11 +39,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -69,14 +64,14 @@
         }
       }
     },
-    "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj": {
+    "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
+        "projectUniqueName": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
         "projectName": "ProtocolServer.Logging",
-        "projectPath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
+        "projectPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
         "packagesPath": "C:\\Users\\Pedroca\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pedroca\\Desktop\\Luan\\ProtocolServer\\ProtocolServer.Logging\\obj\\",
+        "outputPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Pedroca\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -100,11 +95,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {

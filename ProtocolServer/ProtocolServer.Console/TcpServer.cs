@@ -7,60 +7,50 @@ using System.Net.Sockets;
 
 namespace ProtocolServer.Console
 {
-    public class TcpServer<SessionHandler> : IServerSessionOwner, IDisposable where SessionHandler : IServerSessionHandler, new()
+    public class TcpServer<TSessionHandler>(IPAddress address, int port, int listenBackLog)
+        : IServerSessionOwner, IDisposable
+        where TSessionHandler : IServerSessionHandler, new()
     {
-        private readonly ConcurrentDictionary<Guid, ISessionHandler> sessions;
-        private readonly Socket socket;
+        private readonly ConcurrentDictionary<Guid, ISessionHandler> _sessions = new();
+        private readonly Socket _socket = new(SocketType.Stream, ProtocolType.Tcp);
 
-        private IPAddress address;
-        private int port;
-        private int listenBackLog;
-
-        private Task? acceptorTask;
-
-        public TcpServer(IPAddress address, int port, int listenBackLog) {
-            socket = new(SocketType.Stream, ProtocolType.Tcp);
-            sessions = new();
-            this.address = address;
-            this.port = port;
-            this.listenBackLog = listenBackLog;
-        }
+        private Task? _acceptorTask;
 
         public void Start(CancellationToken token) {
-            socket.Bind(new IPEndPoint(address, port));
-            socket.Listen(listenBackLog);
-            acceptorTask = Task.Run(() => AcceptorCallback(), token);
+            _socket.Bind(new IPEndPoint(address, port));
+            _socket.Listen(listenBackLog);
+            _acceptorTask = Task.Run(AcceptorCallback, token);
         }
 
         private async Task AcceptorCallback()
         {
-            while (acceptorTask != null && !acceptorTask.IsCompleted) {
-                Socket client = await socket.AcceptAsync();
+            while (_acceptorTask != null && !_acceptorTask.IsCompleted) {
+                Socket client = await _socket.AcceptAsync();
                 Guid key = Guid.NewGuid();  
                 Logger.Log(LogType.Log, $"New socket already connected with key: {key}");
-                var session = new SessionHandler();
-                sessions.TryAdd(key, session);
+                var session = new TSessionHandler();
+                _sessions.TryAdd(key, session);
                 session.Start(this, key, client);
             }
         }
 
         public void SendMessageTo(Guid key, dynamic message)
         {
-            if (sessions.TryGetValue(key, out var session)) { 
+            if (_sessions.TryGetValue(key, out var session)) { 
                 session.Send(message);
             }
         }
 
         public void SendMessageToAll(dynamic message)
         {
-            foreach (var session in sessions.Values) {
+            foreach (var session in _sessions.Values) {
                 session.Send(message);
             }
         }
 
         public void SendMessageToAllExcept(Guid key, dynamic message)
         {
-            foreach(var session in sessions.Values) { 
+            foreach(var session in _sessions.Values) { 
                 if(session.Key != key)
                 {
                     session.Send(message);
@@ -70,7 +60,7 @@ namespace ProtocolServer.Console
 
         public void DisconnectTo(Guid key)
         {
-            if (sessions.TryRemove(key, out var session)) {
+            if (_sessions.TryRemove(key, out var session)) {
                 session.Dispose();
                 Logger.Log(LogType.Warn, "Removed");
             }
@@ -78,8 +68,8 @@ namespace ProtocolServer.Console
 
         public void Dispose()
         {
-            acceptorTask?.Dispose();
-            socket.Dispose();
+            _acceptorTask?.Dispose();
+            _socket.Dispose();
         }
     }
 }

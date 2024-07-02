@@ -1,8 +1,9 @@
-﻿using ProtocolServer.Console;
+﻿using System.Net;
 using ProtocolServer.Console.Server;
-using System.Net;
 
-internal class Program
+namespace ProtocolServer.Console;
+
+internal abstract class Program
 {
     private static async Task Main(string[] args)
     {
@@ -10,6 +11,6 @@ internal class Program
         using TcpServer<EchoSessionHandler> server = new(IPAddress.Any, 26950, 128);
         server.Start(token);
 
-        await Task.Delay(Timeout.Infinite);
+        await Task.Delay(Timeout.Infinite, token);
     }
 }
