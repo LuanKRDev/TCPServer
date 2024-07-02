@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tcp.Core.Message;
-using UnityEngine;
 
 namespace Tcp.Core.Abstracts
 {
@@ -18,68 +17,38 @@ namespace Tcp.Core.Abstracts
         private Task _receiver;
         private Task _sender;
 
-        private readonly Queue<IMessage> _receiverQueue = new Queue<IMessage>();
-        private readonly Queue<IFormattableMessage> _senderQueue = new Queue<IFormattableMessage>();
-
-        private readonly object _receiverLock = new object();
-        private readonly object _senderLock = new object();
+        private readonly BlockingCollection<IMessage> _receiverQueue = new BlockingCollection<IMessage>();
+        private readonly BlockingCollection<IFormattableMessage> _senderQueue = new BlockingCollection<IFormattableMessage>();
 
         public void Dispose()
         {
-            lock (_receiverLock)
-            {
-                _receiverQueue.Clear();
-            }
-            lock (_senderLock)
-            {
-                _senderQueue.Clear();
-            }
+            _receiverQueue.Dispose();
+            _senderQueue.Dispose();
             _socket?.Dispose();
         }
 
         public void Send(IFormattableMessage message)
         {
-            lock (_senderLock)
-            {
-                _senderQueue.Enqueue(message);
-            }
+            _senderQueue.Add(message);
         }
 
         public async Task SendAsync(IFormattableMessage message)
         {
-            lock (_senderLock)
-            {
-                _senderQueue.Enqueue(message);
-            }
-            await Task.Yield(); // Yield para garantir que a tarefa seja agendada para execução assíncrona
+            _senderQueue.Add(message);
+            await Task.Yield(); 
         }
 
-        public abstract IMessageResolver CreateMessageResolver();
+        protected abstract IMessageResolver CreateMessageResolver();
 
-        public async ValueTask<bool> WaitToReadAsync()
+        protected async ValueTask<bool> WaitToReadAsync()
         {
-            await Task.Yield(); // Yield para garantir que a tarefa seja agendada para execução assíncrona
-            lock (_receiverLock)
-            {
-                return _receiverQueue.Count > 0;
-            }
+            await Task.Yield(); // Garante que a tarefa seja agendada de forma assíncrona
+            return _receiverQueue.Count > 0;
         }
 
-        public bool TryRead(out IMessage message)
+        protected bool TryRead(out IMessage message)
         {
-            lock (_receiverLock)
-            {
-                if (_receiverQueue.Count > 0)
-                {
-                    message = _receiverQueue.Dequeue();
-                    return true;
-                }
-                else
-                {
-                    message = null;
-                    return false;
-                }
-            }
+            return _receiverQueue.TryTake(out message);
         }
 
         protected void Start(Guid key, Socket socket)
@@ -96,33 +65,25 @@ namespace Tcp.Core.Abstracts
             if (_socket == null)
                 throw new InvalidOperationException();
 
-            byte[] buffer = new byte[BufferSize];
+            Memory<byte> buffer = new byte[AbstractSessionHandler.BufferSize];
             var resolver = CreateMessageResolver();
-
             while (_socket.Connected && _socket.Poll(-1, SelectMode.SelectRead))
             {
-                int messageLength = await _socket.ReceiveAsync(buffer, SocketFlags.None);
-                
-                if (messageLength >= sizeof(int) + sizeof(int))
-                {
-                    int messageType = BitConverter.ToInt32(buffer, 0);
-                    int payloadLength = BitConverter.ToInt32(buffer, sizeof(int));
+                var messageLength = await _socket.ReceiveAsync(buffer,  SocketFlags.None);
 
-                    if (!resolver.TryGetMessageParser(messageType, out var parser))
-                    {
-                        MessageTypeParserNotFound(messageType);
-                    }
-                    else
-                    {
-                        var message = parser.Parse(buffer);
-                        lock (_receiverLock)
-                        {
-                            _receiverQueue.Enqueue(message);
-                        }
-                    }
+                if (messageLength < sizeof(int) + sizeof(int)) continue;
+                var messageType = BitConverter.ToInt32(buffer.Span);
+                var payloadLength = BitConverter.ToInt32(buffer.Span.Slice(sizeof(int)));
+
+                if (!resolver.TryGetMessageParser(messageType, out var parser))
+                    MessageTypeParserNotFound(messageType);
+                else
+                {
+                    var message = parser.Parse(buffer.Span.Slice(0, messageLength).Slice(sizeof(long)));
+                    _receiverQueue.Add(message);
                 }
-               
             }
+           
         }
 
         protected abstract void ClientTooSlow();
@@ -133,27 +94,47 @@ namespace Tcp.Core.Abstracts
             if (_socket == null)
                 throw new InvalidOperationException();
 
-            byte[] buffer = new byte[BufferSize];
+            byte[] buffer = new byte[AbstractSessionHandler.BufferSize];
 
             while (_socket.Connected && _socket.Poll(-1, SelectMode.SelectWrite))
             {
                 IFormattableMessage message;
-                lock (_senderLock)
+                if (_senderQueue.TryTake(out message, Timeout.Infinite))
                 {
-                    if (_senderQueue.Count > 0)
-                        message = _senderQueue.Dequeue();
-                    else
-                        continue; // Aguarda até que haja uma mensagem para enviar
+                    int length = message.FormatMessage(buffer.AsSpan(sizeof(long)));
+
+                    BitConverter.TryWriteBytes(new Span<byte>(buffer, 0, sizeof(int)), message.MessageType);
+
+                    BitConverter.TryWriteBytes(new Span<byte>(buffer, sizeof(int), sizeof(int)), length);
+
+                    await SendAsync(buffer, 0, length + sizeof(int) + sizeof(int));
                 }
-
-                int length = message.FormatMessage(buffer);
-                
-                BitConverter.TryWriteBytes(buffer, message.MessageType);
-
-                BitConverter.TryWriteBytes(buffer.AsSpan(sizeof(int)), length);
-
-                await _socket.SendAsync(new ArraySegment<byte>(buffer, 0, length + sizeof(int) + sizeof(int)), SocketFlags.None);
             }
+        }
+
+        private Task<int> SendAsync(byte[] buffer, int offset, int size)
+        {
+            var args = new SocketAsyncEventArgs();
+            args.SetBuffer(buffer, offset, size);
+
+            var tcs = new TaskCompletionSource<int>();
+            args.Completed += (_, eventArgs) =>
+            {
+                if (eventArgs.SocketError != SocketError.Success)
+                    tcs.TrySetException(new SocketException((int)eventArgs.SocketError));
+                else
+                    tcs.TrySetResult(eventArgs.BytesTransferred);
+            };
+
+            if (!_socket.SendAsync(args))
+            {
+                if (args.SocketError != SocketError.Success)
+                    throw new SocketException((int)args.SocketError);
+
+                tcs.SetResult(args.BytesTransferred);
+            }
+
+            return tcs.Task;
         }
     }
 }

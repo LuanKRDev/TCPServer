@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProtocolServer.Console")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68232b0bbd374f13f277e5f115213b1e926ed78f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6477f9a380a61072dea4b0043082b0a7ba21d81f")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProtocolServer.Console")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProtocolServer.Console")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

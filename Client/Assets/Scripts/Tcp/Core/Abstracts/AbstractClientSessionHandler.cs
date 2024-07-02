@@ -9,7 +9,7 @@ namespace Tcp.Core.Abstracts
         [CanBeNull] private IClientSessionOwner _owner;
         [CanBeNull] public IClientSessionOwner Owner => _owner;
 
-        public void Start(IClientSessionOwner owner, Guid id, Socket socket)
+        public virtual void Start(IClientSessionOwner owner, Guid id, Socket socket)
         {
             this._owner = owner;
             base.Start(id, socket);
