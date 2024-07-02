@@ -136,5 +136,7 @@ namespace Tcp.Core.Abstracts
 
             return tcs.Task;
         }
+
+        public bool IsConnected() => _socket.Connected;
     }
 }

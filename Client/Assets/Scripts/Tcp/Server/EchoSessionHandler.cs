@@ -1,12 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Tcp.Core.Abstracts;
 using Tcp.Core.Message;
 using Tcp.Shared;
 using UnityEngine;
 
 namespace Tcp.Server
 {
-    public class EchoSessionHandler : AbstractExecutorSessionHandler, IMessageResolver
+    public class EchoSessionHandler : AbstractClientSessionHandler, IMessageResolver
     {
         public bool TryGetMessageParser(int messageTypeId, [NotNullWhen(true)] out IMessageParser parser)
         {
@@ -34,8 +35,14 @@ namespace Tcp.Server
         {
 
         }
-
-        protected override async Task ReceivedAsync(IMessage message)
+        
+        public async Task UpdateReceiver()
+        {
+            if (TryRead(out var message))
+                await ReceivedAsync(message);
+        }
+        
+        private  async Task ReceivedAsync(IMessage message)
         {
             switch (message)
             {
@@ -45,9 +52,10 @@ namespace Tcp.Server
             }
         }
 
+
         private async Task HandleEchoMessage(EchoMessage echoMessage)
         {
-            Debug.Log($"Received message EchoMessage {{ Text={echoMessage.Text} }}");
+            Debug.Log($"Received message from Server: {echoMessage.Text}");
             await Task.CompletedTask;
         }
     }

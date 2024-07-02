@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Pedroca\\.nuget\\packages\\": {}
+    "C:\\Users\\luanr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
+      "projectUniqueName": "C:\\Users\\luanr\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
       "projectName": "ProtocolServer.Logging",
-      "projectPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
-      "packagesPath": "C:\\Users\\Pedroca\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\obj\\",
+      "projectPath": "C:\\Users\\luanr\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\ProtocolServer.Logging.csproj",
+      "packagesPath": "C:\\Users\\luanr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\luanr\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Logging\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Pedroca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\luanr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

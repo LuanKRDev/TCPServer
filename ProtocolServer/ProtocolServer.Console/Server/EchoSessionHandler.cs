@@ -47,8 +47,9 @@ namespace ProtocolServer.Console.Server
 
         private async Task HandleEchoMessage(EchoMessage echoMessage)
         {
-            Logger.Log(LogType.Log, $"Received message EchoMessage {{ Text={echoMessage.Text} }}");
-            await SendAsync(echoMessage);
+            Logger.Log(LogType.Log, $"Received message from client: {echoMessage.Text}");
+            EchoMessage message = new EchoMessage("[Server]: Hello client!");
+            await SendAsync(message);
         }
     }
 }

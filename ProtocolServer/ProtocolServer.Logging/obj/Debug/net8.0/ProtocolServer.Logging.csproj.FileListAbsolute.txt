@@ -21,3 +21,15 @@ C:\Users\Pedroca\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Loggin
 C:\Users\Pedroca\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\refint\ProtocolServer.Logging.dll
 C:\Users\Pedroca\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.pdb
 C:\Users\Pedroca\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ref\ProtocolServer.Logging.dll
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\bin\Debug\net8.0\ProtocolServer.Logging.deps.json
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\bin\Debug\net8.0\ProtocolServer.Logging.dll
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\bin\Debug\net8.0\ProtocolServer.Logging.pdb
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.AssemblyInfoInputs.cache
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.AssemblyInfo.cs
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.csproj.CoreCompileInputs.cache
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.sourcelink.json
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.dll
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\refint\ProtocolServer.Logging.dll
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ProtocolServer.Logging.pdb
+C:\Users\luanr\Documents\GitHub\TCPServer\ProtocolServer\ProtocolServer.Logging\obj\Debug\net8.0\ref\ProtocolServer.Logging.dll

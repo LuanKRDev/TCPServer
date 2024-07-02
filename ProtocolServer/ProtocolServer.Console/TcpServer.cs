@@ -28,7 +28,7 @@ namespace ProtocolServer.Console
                 Socket client = await _socket.AcceptAsync();
                 Guid key = Guid.NewGuid();  
                 Logger.Log(LogType.Log, $"New socket already connected with key: {key}");
-                var session = new TSessionHandler();
+                TSessionHandler session = new TSessionHandler();
                 _sessions.TryAdd(key, session);
                 session.Start(this, key, client);
             }

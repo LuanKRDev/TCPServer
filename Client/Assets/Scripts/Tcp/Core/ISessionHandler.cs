@@ -7,5 +7,6 @@ namespace Tcp.Core
     {
         Guid Key { get; }
         void Send(IFormattableMessage message);
+        bool IsConnected();
     }
 }

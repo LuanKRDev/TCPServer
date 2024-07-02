@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6EuPK4KojVMdpcD3uNySbfttYw1+hpKVKQrBn2oiGyIhbKeqG7E9i54G9nNkVML3IRBchyK8g3GCkHx2bJLCwg==",
+  "dgSpecHash": "JAy6RhSbD+chnSV1eWTiDCmGvveLAasnS+dLTahkwnjN/rFmIeAVahgoiXw8HS6RwFuBNgDjMw3w/DCkGTLtTw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Pedroca\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
+  "projectFilePath": "C:\\Users\\luanr\\Documents\\GitHub\\TCPServer\\ProtocolServer\\ProtocolServer.Console\\ProtocolServer.Console.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
