@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Tcp.Core;
+using UnityEngine;
 
 namespace Tcp
 {
@@ -35,6 +36,7 @@ namespace Tcp
             await _socket.ConnectAsync(_address, _port);
             _session = new TSessionHandler();
             _session.Start(this, Guid.Empty, _socket);
+            Debug.Log("ConnectAsync");
         }
 
         public void Disconnected(Guid key)

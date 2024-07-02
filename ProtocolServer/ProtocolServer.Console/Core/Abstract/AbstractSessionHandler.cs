@@ -31,26 +31,24 @@ namespace ProtocolServer.Console.Core.Abstract
                 ClientTooSlow();
         }
 
-        public async Task SendAsync(IFormattableMessage message)
+        protected async Task SendAsync(IFormattableMessage message)
         {
             await _senderChannel!.Writer.WriteAsync(message);
         }
 
-        public abstract IMessageResolver CreateMessageResolver();
+        protected abstract IMessageResolver CreateMessageResolver();
 
-        public ValueTask<bool> WaitToReadAsync()
+        protected ValueTask<bool> WaitToReadAsync()
         {
             return _receiverChannel!.Reader.WaitToReadAsync();
         }
 
-        public bool TryRead([NotNullWhen(true)] out IMessage? message)
+        protected bool TryRead([NotNullWhen(true)] out IMessage? message)
         {
             return _receiverChannel!.Reader.TryRead(out message);
         }
 
-        protected abstract void OnDisconnect();
-
-        public virtual void Start(Guid key, Socket socket)
+        protected virtual void Start(Guid key, Socket socket)
         {
             this._key = key;
             this._socket = socket;
@@ -73,20 +71,17 @@ namespace ProtocolServer.Console.Core.Abstract
             {
                 var messageLength = await _socket.ReceiveAsync(buffer);
 
-                // should contain messageType and messageLength
-                if (messageLength >= sizeof(int) + sizeof(int))
-                {
-                    var messageType = BitConverter.ToInt32(buffer.Span);
-                    var payloadLength = BitConverter.ToInt32(buffer.Span.Slice(sizeof(int)));
+                if (messageLength < sizeof(int) + sizeof(int)) continue;
+                var messageType = BitConverter.ToInt32(buffer.Span);
+                var payloadLength = BitConverter.ToInt32(buffer.Span.Slice(sizeof(int)));
 
-                    if (!resolver.TryGetMessageParser(messageType, out var parser))
-                        MessageTypeParserNotFound(messageType);
-                    else
-                    {
-                        var message = parser.Parse(buffer.Span.Slice(0, messageLength).Slice(sizeof(long)));
-                        if (!_receiverChannel!.Writer.TryWrite(message))
-                            ClientTooSlow();
-                    }
+                if (!resolver.TryGetMessageParser(messageType, out var parser))
+                    MessageTypeParserNotFound(messageType);
+                else
+                {
+                    var message = parser.Parse(buffer.Span.Slice(0, messageLength).Slice(sizeof(long)));
+                    if (!_receiverChannel!.Writer.TryWrite(message))
+                        ClientTooSlow();
                 }
             }
            
@@ -105,14 +100,12 @@ namespace ProtocolServer.Console.Core.Abstract
                 && _socket.Connected
                 && _socket.Poll(-1, SelectMode.SelectWrite))
             {
-                if (_senderChannel.Reader.TryRead(out var message))
-                {
-                    int length = message.FormatMessage(buffer.Span.Slice(sizeof(long)));
-                    BitConverter.TryWriteBytes(buffer.Span, message.MessageType);
-                    BitConverter.TryWriteBytes(buffer.Span.Slice(sizeof(int)), length);
+                if (!_senderChannel.Reader.TryRead(out var message)) continue;
+                int length = message.FormatMessage(buffer.Span.Slice(sizeof(long)));
+                BitConverter.TryWriteBytes(buffer.Span, message.MessageType);
+                BitConverter.TryWriteBytes(buffer.Span.Slice(sizeof(int)), length);
 
-                    await _socket.SendAsync(buffer.Slice(0, length + sizeof(int) + sizeof(int)));
-                }
+                await _socket.SendAsync(buffer.Slice(0, length + sizeof(int) + sizeof(int)));
             }
         }
     }

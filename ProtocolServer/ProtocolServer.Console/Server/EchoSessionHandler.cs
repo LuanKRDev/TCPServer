@@ -20,7 +20,8 @@ namespace ProtocolServer.Console.Server
                     return false;
             }
         }
-        public override IMessageResolver CreateMessageResolver()
+
+        protected override IMessageResolver CreateMessageResolver()
         {
             return this;
         }

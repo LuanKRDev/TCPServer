@@ -5,7 +5,7 @@ namespace Tcp.Core
 {
     public interface ISessionHandler : IDisposable
     {
-        Guid Id { get; }
+        Guid Key { get; }
         void Send(IFormattableMessage message);
     }
 }

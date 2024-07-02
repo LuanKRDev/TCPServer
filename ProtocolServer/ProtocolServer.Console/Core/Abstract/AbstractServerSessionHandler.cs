@@ -1,5 +1,4 @@
-﻿using ProtocolServer.Console.Core;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 
 namespace ProtocolServer.Console.Core.Abstract
 {
@@ -12,12 +11,6 @@ namespace ProtocolServer.Console.Core.Abstract
         {
             this._owner = owner;
             base.Start(key, socket);
-        }
-
-
-        protected override void OnDisconnect()
-        {
-            Owner?.DisconnectTo(this.Key);
         }
     }
 }
