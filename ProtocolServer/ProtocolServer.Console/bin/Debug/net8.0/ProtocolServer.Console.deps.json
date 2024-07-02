@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ProtocolServer.Console/1.0.0": {
+        "dependencies": {
+          "ProtocolServer.Logging": "1.0.0"
+        },
+        "runtime": {
+          "ProtocolServer.Console.dll": {}
+        }
+      },
+      "ProtocolServer.Logging/1.0.0": {
+        "runtime": {
+          "ProtocolServer.Logging.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ProtocolServer.Console/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ProtocolServer.Logging/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
